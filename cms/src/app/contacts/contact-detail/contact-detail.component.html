@@ -4,8 +4,8 @@
         <img [src]="contact.imageUrl" alt=" {{ contact.name }}">
         <div class="row">
             <div class="col-xs-12">
-                <button class="btn btn-primary" type="button">Edit</button>
-                <button class="btn btn-danger" type="button">Delete</button>
+                <a class="btn btn-primary" [routerLink]="['edit']">Edit</a>
+                <a class="btn btn-danger" (click)="onDelete()">Delete</a>
             </div>
         </div>
     </div>
