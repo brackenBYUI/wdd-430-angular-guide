@@ -58,7 +58,7 @@ export class ContactService {
     return maxId.toString()
   }
 
-  addDocument(newContact: Contact) {
+  addContact(newContact: Contact) {
     if (!newContact) {
       return
     }
@@ -69,7 +69,7 @@ export class ContactService {
     this.contactChangedEvent.next(this.contacts.slice())
   }
 
-  updateDocument(originalContact: Contact, newContact: Contact) {
+  updateContact(originalContact: Contact, newContact: Contact) {
     if (!newContact || !originalContact) {
       return
     }
