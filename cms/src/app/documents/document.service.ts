@@ -63,7 +63,7 @@ addDocument(newDocument: Document) {
   }
 
   this.maxDocumentId++
-  newDocument.id = this.maxDocumentId
+  newDocument.id = this.maxDocumentId.toString()
   this.documents.push(newDocument)
   this.documentListChangedEvent.next(this.documents.slice())
 }

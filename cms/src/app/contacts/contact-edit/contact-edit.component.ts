@@ -21,7 +21,7 @@ export class ContactEditComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.contactService.contactChangedEvent.subscribe(
+    this.route.params.subscribe(
       (params: Params) => {
         let id = params.id;
         if (!id) {
@@ -43,13 +43,16 @@ export class ContactEditComponent implements OnInit {
   
   onSubmit(form: NgForm) {
     const value = form.value;
-    let newContact = new Contact(value.id, value.name, value.email, value.phone, value.imageUrl, this.groupContacts);
+    const id = this.contactService.getMaxId();
+    let newContact = new Contact(id, value.name, value.email, value.phone, value.imageUrl, this.groupContacts);
 
     if (this.editMode) {
       this.contactService.updateContact(this.originalContact, newContact);
     } else {
       this.contactService.addContact(newContact);
     }
+
+    this.router.navigate(['../'], {relativeTo: this.route})
   }
 
   onCancel() {

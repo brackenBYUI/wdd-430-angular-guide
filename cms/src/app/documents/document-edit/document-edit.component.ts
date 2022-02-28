@@ -21,7 +21,7 @@ export class DocumentEditComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.subscription = this.documentService.documentListChangedEvent.subscribe(
+    this.route.params.subscribe(
       (params: Params) => {
         let id = params.id;
         if (!id) {
@@ -44,7 +44,8 @@ export class DocumentEditComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     const value = form.value;
-    let newDocument = new Document(value.id, value.name, value.description, value.url);
+    let id = this.documentService.getMaxId();
+    let newDocument = new Document(id, value.name, value.description, value.url);
 
     if (this.editMode) {
       this.documentService.updateDocument(this.originalDocument, newDocument)
