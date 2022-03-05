@@ -1,16 +1,29 @@
 <div class="panel panel-default">
-    <div class="panel-heading clearfix">
-        <h4>Contacts
-            <div class="pull-right">
-                <button class="btn btn-success" [routerLink]="['new']">New Contact</button>
+    <div class="row">
+        <div class="col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="row">
+                <span class="title pad-left-right">Contacts</span>
+              </div>
+              <div class="row">
+                <div class="input-group pull-left pad-left-right col-xs-7">
+                    <input type="text" class="form-control" placeholder="Enter a search value" #searchBox (keyup)="search(searchBox.value)">
+                  <div class="glyphicon glyphicon-search input-group-addon" (click)="search(searchBox.value)"></div>
+                </div>
+                <div class="pull-right pad-left-right">
+                  <a class="btn btn-success" [routerLink]="['new']">New Contact</a>
+                </div>
+              </div>
             </div>
-        </h4>
-    </div>
+          </div>
+        </div>
+      </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-xs-12">
-               <cms-contact-item *ngFor="let con of contacts" 
-               [contact]="con" ></cms-contact-item>
+               <cms-contact-item *ngFor="let con of contacts | contactsFilter:term" 
+               [contact]="con"></cms-contact-item>
             </div>
         </div>
     </div>

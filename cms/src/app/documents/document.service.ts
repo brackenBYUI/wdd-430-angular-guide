@@ -1,6 +1,8 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Document } from './document.model';
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 
 @Injectable({
@@ -12,13 +14,33 @@ export class DocumentService {
 
   private documents: Document[] = [];
 
-  constructor() { 
-    this.documents = MOCKDOCUMENTS;
+  constructor(private http: HttpClient) { 
     this.maxDocumentId = this.getMaxId();
   }
 
-  getDocuments(): Document[] {
-    return this.documents.slice();
+  getDocuments(): Document[]{
+    this.http.get<Document[]>('https://wdd430-cms-e2d4c-default-rtdb.firebaseio.com/documents.json').subscribe(
+    // success method
+    (documents: Document[] ) => {
+      this.documents = documents
+      this.maxDocumentId = this.getMaxId()
+      this.documents.sort((curEl, nextEl) => {
+        if (curEl.name < nextEl.name) {
+          return -1
+        } else if (curEl.name > nextEl.name) {
+          return 1
+        } else {
+          return 0
+        }
+      })
+      this.documentListChangedEvent.next(this.documents.slice())
+    },
+    // error method
+    (error: any) => {
+      console.log(error)
+    } 
+    )
+    return this.documents.slice()
   }
 
   getDocument(id: string): Document {
@@ -39,7 +61,7 @@ export class DocumentService {
        return;
     }
     this.documents.splice(pos, 1);
-    this.documentListChangedEvent.next(this.documents.slice());
+    this.storeDocuments();
  }
 
  getMaxId(): number {
@@ -65,7 +87,7 @@ addDocument(newDocument: Document) {
   this.maxDocumentId++
   newDocument.id = this.maxDocumentId.toString()
   this.documents.push(newDocument)
-  this.documentListChangedEvent.next(this.documents.slice())
+  this.storeDocuments()
 }
 
 updateDocument(originalDocument: Document, newDocument: Document) {
@@ -80,6 +102,16 @@ updateDocument(originalDocument: Document, newDocument: Document) {
       
   newDocument.id = originalDocument.id
   this.documents[pos] = newDocument
-  this.documentListChangedEvent.next(this.documents.slice())
+  this.storeDocuments()
+}
+
+storeDocuments() {
+  let newDocArray = JSON.stringify(this.documents)
+  this.http.put('https://wdd430-cms-e2d4c-default-rtdb.firebaseio.com/documents.json', newDocArray, 
+  {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  }).subscribe(response => {
+    this.documentListChangedEvent.next(this.documents.slice())
+  })
 }
 }
