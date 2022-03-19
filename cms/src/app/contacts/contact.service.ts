@@ -132,7 +132,7 @@ export class ContactService {
 
   storeContacts() {
     let newConArray = JSON.stringify(this.contacts)
-    this.http.put('https://wdd430-cms-e2d4c-default-rtdb.firebaseio.com/contacts.json', newConArray, 
+    this.http.put('https://localhost:3000/contacts', newConArray, 
     {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }).subscribe(response => {

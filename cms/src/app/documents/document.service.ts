@@ -143,7 +143,7 @@ updateDocument(originalDocument: Document, newDocument: Document) {
 
 storeDocuments() {
   let newDocArray = JSON.stringify(this.documents)
-  this.http.put('https://wdd430-cms-e2d4c-default-rtdb.firebaseio.com/documents.json', newDocArray, 
+  this.http.put('https://localhost:3000/documents', newDocArray, 
   {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }).subscribe(response => {
