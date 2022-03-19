@@ -17,7 +17,7 @@ export class MessageService {
   }
 
   getMessages(): Message[] {
-    this.http.get<Message[]>('https://wdd430-cms-e2d4c-default-rtdb.firebaseio.com/messages.json').subscribe(
+    this.http.get<Message[]>('http://localhost:3000/messages').subscribe(
     // success method
     (messages: Message[] ) => {
       this.messages = messages
@@ -34,7 +34,7 @@ export class MessageService {
 
   storeMessages() {
     let newMesArray = JSON.stringify(this.messages)
-    this.http.put('https://wdd430-cms-e2d4c-default-rtdb.firebaseio.com/messages.json', newMesArray, 
+    this.http.put('https://localhost:3000/messages', newMesArray, 
     {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }).subscribe(response => {
