@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import { Document } from './document.model';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +18,10 @@ export class DocumentService {
   }
 
   getDocuments(): Document[]{
-    this.http.get<Document[]>('http://localhost:3000/documents').subscribe(
+    this.http.get('http://localhost:3000/documents').subscribe(
     // success method
     (documents: Document[] ) => {
+      console.log('Document service', documents)
       this.documents = documents
       this.maxDocumentId = this.getMaxId()
       this.documents.sort((curEl, nextEl) => {

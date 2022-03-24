@@ -8,12 +8,11 @@ var router = express.Router();
 router.get('/', (req, res, next) => {
     Document.find()
     .then((documents) => {
-        res.statusCode(200).json({
-            documents: documents
-        })
+      // console.log('document.js', documents)
+        res.status(200).json(documents)
     })
     .catch(err => {
-        res.statusCode(500).json({
+        res.status(500).json({
             message: 'An error occurred',
             error: err
         })

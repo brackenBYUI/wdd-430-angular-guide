@@ -9,12 +9,10 @@ router.get('/', (req, res, next) => {
     Contact.find()
     .populate('group')
     .then((contacts) => {
-        res.statusCode(200).json({
-            contacts: contacts
-        })
+        res.status(200).json(contacts)
     })
     .catch(err => {
-        res.statusCode(500).json({
+        res.status(500).json({
             message: 'An error occurred',
             error: err
         })
@@ -32,6 +30,7 @@ router.get('/', (req, res, next) => {
       imageUrl: req.body.imageUrl,
       group: req.body.group
     });
+    console.log(contact)
   
     contact.save()
       .then(createdContact => {

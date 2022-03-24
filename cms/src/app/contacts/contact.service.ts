@@ -94,7 +94,7 @@ export class ContactService {
   
     // add to database
     this.http.post<{ message: string, contact: Contact }>('http://localhost:3000/contacts',
-      document,
+      contact,
       { headers: headers })
       .subscribe(
         (responseData) => {
